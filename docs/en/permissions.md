@@ -457,7 +457,7 @@ Embedding hosts can supply additional managed policy via the SDK `managedSetting
 
 Claude Code saves trust per workspace, keyed on the git repository root or, outside a repository, the directory you started Claude Code from. When you start in your home directory, trust is held for the current session only and isn't written to disk; see the [additional safeguards](/en/security#additional-safeguards) note. Trusting a parent directory doesn't apply a nested project's allow rules.
 
-`.claude/settings.local.json` is your own file, so its allow rules and additional directories are subject to the same check only when a repository could have supplied it, such as when the file is committed to git or `.claude` is a symlink.
+`.claude/settings.local.json` is your own file, so the workspace trust check usually doesn't apply to it. When a repository could have supplied the file, such as when it is committed to git or `.claude` is a symlink, its allow rules and additional directories go through the trust check like project settings.
 
 Allow rules and additional directories in `.claude/settings.local.json` also apply without workspace trust in two cases:
 
