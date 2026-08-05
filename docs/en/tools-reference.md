@@ -322,6 +322,10 @@ The PowerShell tool lets Claude run PowerShell commands natively. On Windows, th
 * **Windows with Git Bash installed**: the tool is rolling out progressively.
 * **Linux, macOS, and WSL**: the tool is opt-in.
 
+Your [PreToolUse hooks](/docs/en/hooks#powershell) receive the tool's command string in `tool_input.command`, with the same fields as the Bash tool.
+
+Match `Bash|PowerShell` in hooks that inspect shell commands; the [PowerShell hook input section](/docs/en/hooks#powershell) explains why matching `Bash` alone is not enough.
+
 ### Enable the PowerShell tool
 
 Set `CLAUDE_CODE_USE_POWERSHELL_TOOL=1` in your environment or in `settings.json`:
@@ -387,7 +391,7 @@ Read handles several file types beyond plain text:
 * **PDFs**: Claude reads short `.pdf` files whole. For PDFs longer than 10 pages, it reads in ranges with a `pages` parameter, such as `"1-5"`, up to 20 pages at a time.
 * **Jupyter notebooks**: `.ipynb` files return all cells with their outputs, including code, markdown, and visualizations.
 
-Read only reads files, not directories. Claude uses `ls` via the Bash tool to list directory contents.
+Read only reads files, not directories. Claude lists directory contents with a shell command such as `ls`.
 
 ## WebFetch tool behavior
 
