@@ -26,10 +26,6 @@ This page covers:
 * [Troubleshooting](#troubleshooting) failed runs and missing comments
 * [Reviewing a diff locally](#review-a-diff-locally) with the `/code-review` command
 
-<Note>
-  To review a diff locally in your terminal without installing the GitHub App, run the `/code-review` command in any Claude Code session. See [Review a diff locally](#review-a-diff-locally).
-</Note>
-
 ## How reviews work
 
 Once an Owner [enables Code Review](#set-up-code-review) for your organization, reviews trigger when a PR opens, on every push, or when manually requested, depending on the repository's configured behavior. Commenting `@claude review` [starts a review on a PR](#manually-trigger-reviews) in any mode.
@@ -234,7 +230,7 @@ Go to [claude.ai/analytics/code-review](https://claude.ai/analytics/code-review)
 | Feedback             | Count of review comments that were auto-resolved because a developer addressed the issue |
 | Repository breakdown | Per-repo counts of PRs reviewed and comments resolved                                    |
 
-The repositories table in admin settings also shows average cost per review for each repo. Dashboard cost figures are estimates for monitoring activity; for invoice-accurate spend, refer to your Anthropic bill.
+Dashboard cost figures are estimates for monitoring activity. For invoice-accurate spend, refer to your Anthropic bill.
 
 ## Pricing
 
@@ -296,6 +292,7 @@ The [`/code-review` command](/docs/en/commands) reviews a diff in your terminal 
 
     * `--fix`: applies the findings to your working tree after the review
     * `--comment`: posts the findings as inline PR comments
+    * `--post`: on an `ultra` cloud review of a `github.com` pull request, posts the finished findings to the PR as one comment from your GitHub account; see [Post findings to the pull request](/docs/en/ultrareview#post-findings-to-the-pull-request). Requires Claude Code v2.1.227 or later
   </Step>
 
   <Step title="Keep working">
@@ -345,6 +342,8 @@ You can't schedule the review: `/code-review` is marked [`disable-model-invocati
 
 `/code-review ultra --fix` runs the deeper [ultrareview](/docs/en/ultrareview) in the cloud, then applies its findings to your working tree when they arrive back in your session. Ultrareview uses its own scope: your current branch against the repository's default branch, plus any uncommitted and staged changes in the working tree. Pass a branch name, such as `/code-review ultra develop`, to compare against a different base.
 
+When the target is a `github.com` pull request, you can have Claude [post the finished findings to the PR](/docs/en/ultrareview#post-findings-to-the-pull-request) as a comment from your GitHub account. Requires Claude Code v2.1.227 or later.
+
 <Note>
   Ultrareview requires authentication with a claude.ai account and is not available on Amazon Bedrock, Google Cloud's Agent Platform, or Microsoft Foundry, or to organizations with Zero Data Retention enabled. When ultrareview is not available, `/code-review ultra` runs a local review in your session instead.
 </Note>
@@ -356,8 +355,6 @@ When the review would bill [usage credits](https://support.claude.com/en/article
 The command was named `/simplify` before v2.1.147, when it applied fixes by default. From v2.1.154, `/simplify` runs a separate cleanup-only review that applies fixes without hunting for bugs. If you scripted `/simplify` for bug-finding, switch to `/code-review --fix`, which is unchanged.
 
 ## Related resources
-
-Code Review is designed to work alongside the rest of Claude Code. If you want to run reviews locally before opening a PR, need a self-hosted setup, or want to go deeper on how `CLAUDE.md` shapes Claude's behavior across tools, these pages are good next stops:
 
 * [Commands](/docs/en/commands): run `/code-review` in a local Claude Code session to check a diff before pushing
 * [GitHub Actions](/docs/en/github-actions): run Claude in your own GitHub Actions workflows for custom automation beyond code review
